@@ -7,4 +7,12 @@ class QiitaTrendSpider(scrapy.Spider):
     start_urls = ["https://qiita.com"]
 
     def parse(self, response):
-        pass
+        category = response.xpath('//div[@class="style-ghw6r8"]/a[@href="/"]/text()').get()
+        titles = response.xpath('//h2/a/text()').getall()
+        urls = response.xpath('//h2/a/@href').getall()
+
+        yield {
+            'category':category,
+            'titles':titles,
+            'urls':urls,
+        }
